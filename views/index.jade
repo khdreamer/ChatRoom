@@ -1,6 +1,12 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  input#messageBox(type="text" message-box ng-model="message")
+  div(ng-controller='chat')
+    h1= title
+    p Welcome to #{title}
+    p Your name:
+    input#name(type="text" ng-model="user_name")
+    ul
+      li(ng-repeat="h in history track by $index"){{h.user_name}} :{{h.message}}
+    input#messageBox(type="text" message-box ng-model="message")
+

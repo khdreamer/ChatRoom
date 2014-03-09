@@ -7,8 +7,7 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
-  , path = require('path')
-  , socketHandler = require('./socket-io/socket.js');
+  , path = require('path');
 
 var app = express()
 
@@ -36,7 +35,7 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 });
 
 var io = require('socket.io').listen(server);
-
+var socketHandler = require('./controllers/socket-io/socket.js')(io);
 io.sockets.on('connection', socketHandler.connect);
 
 
