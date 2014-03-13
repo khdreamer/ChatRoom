@@ -5,6 +5,7 @@ app.controller('chat', function ($scope) {
 
   // get full list of history: rewrite
   socket.on('history', function (data) {
+    $scope.history = [];
     data.forEach(function(el){
       $scope.history.push(JSON.parse(el));
     });

@@ -22,7 +22,7 @@ exports.all = function(callback){
 exports.create = function(data, callback){
 
   console.log("create");
-  client.rpush("history", [JSON.stringify(data)], function(err, num){ 
+  client.rpush("history", JSON.stringify(data), function(err, num){ 
 
     callback();
       
