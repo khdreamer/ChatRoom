@@ -1,7 +1,20 @@
 app.controller('chat', function ($scope) {
 
-  $scope.history = [];
-  $scope.user_name = "Anonymous";
+  $scope.history = []; //history data in chatrooms
+  $scope.user_name_field = "Scarlett Johnson";
+  $scope.room_name_field = "Starbucks Taida";
+  $scope.rooms = ["No existing room!"];
+
+  // get full list of existing room names
+  socket.on('room_list', function (data) {
+    $scope.rooms = [];
+    console.log("received data: " + data);
+    data.forEach(function(el){
+      $scope.rooms.push(el);
+    });
+    console.log(data);
+    $scope.$apply(); 
+  });
 
   // get full list of history: rewrite
   socket.on('history', function (data) {
@@ -9,15 +22,15 @@ app.controller('chat', function ($scope) {
     data.forEach(function(el){
       $scope.history.push(JSON.parse(el));
     });
-    console.log(data);
-    $scope.$apply(); 
+    //console.log(data);
+    $scope.$apply();
   });
 
   // get new message: append
   socket.on('new', function (data) {
     $scope.history.push(data);
-    console.log(data);
-    console.log("message received: " + (new Date()).getMilliseconds());
+    //console.log(data);
+    //console.log("message received: " + (new Date()).getMilliseconds());
     $scope.$apply(); 
   });
 
