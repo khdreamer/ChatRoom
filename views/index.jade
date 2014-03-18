@@ -1,26 +1,8 @@
 extends layout
 
 block content
-	div(ng-controller='chat')
-		//h1= title
-		//p Welcome to #{title}
-		h1 Chatroom
-		p Welcome to Chatroom
-
-		p Room name
-		input#name(type="text" room-name-box ng-model="room_name_field")
-
-		ul
-			li(ng-repeat="room in rooms"){{room}}
+  div(ng-controller='chat')
+    div(ui-view)
 
 
-		hr(size = "3" color = "000000")
-
-		p Your name:
-		input#name(type="text" ng-model="user_name_field")
-
-		ul
-			li(ng-repeat="h in history track by $index"){{h.room_name}} {{h.user_name}} :{{h.message}}
-
-		input#messageBox(type="text" message-box ng-model="message_field")
 

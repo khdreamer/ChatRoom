@@ -1,57 +1,57 @@
-var db = require("../../models/db.js")
+var chat_db = require("../../models/chat.js")
   , redis = require("redis");
 
-module.exports = function(io){
+module.exports = function (io){
 
-  this.connect = function(socket){
+  this.connect = function (socket){
 
     console.log("connection");
 
-    /*
     // return all history messages
-    db.all(function(list){
-      this.all(socket, list); //emitting the history data back to client!
-    });
-    */
+    // chat_db.all(function(list){
+    //   this.all(socket, list); //emitting the history data back to client
+    // });
 
+    chat_db.allRooms(function (list){
+      //console.log("room lists: " + list);
+      this.updateRoomList(socket, list);
+    });
     
+    // send back room history
+    socket.on("room_history", function (room){
+
+      chat_db.all(room, function(list){
+        this.all(socket, list); //emitting the history data of the room back to client
+      });
+
+    });
 
     // listen to new message
-    socket.on('message', function (data) { // from directives.js
+    socket.on('message', function (data) {
       console.log("message received: " + (new Date()).getMilliseconds());
 
-      // return history messages which belong to room_name
-      db.all(data, function(list){
-        this.all(socket, list); //emitting the history data back to client!
-      });
-
-      db.create(data, function(){
+      chat_db.create(data, function(){
         console.log("message recorded: " + (new Date()).getMilliseconds());        
-        this.update(data); //emitting the new data back to client!
-      });
-
-      db.read(data, function(list){
-        //console.log("room lists: " + list);
-        this.updateRoomList(socket,list);
+        this.update(data); //emitting the new data back to client
       });
 
     });
 
   };
 
-  this.update = function(data){
+  this.update = function (data){
 
     io.sockets.emit('new', data);
 
   };
 
-  this.all = function(socket, history){
+  this.all = function (socket, history){
 
-    socket.emit('history', history);
+    socket.emit('room_history', history);
 
   };
 
-  this.updateRoomList = function(socket, list){
+  this.updateRoomList = function (socket, list){
     console.log("updateRoomList executed, emitting: " + list);
     socket.emit('room_list', list);
   }
