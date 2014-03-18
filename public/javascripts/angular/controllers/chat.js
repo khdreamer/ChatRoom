@@ -1,26 +1,10 @@
-app.controller('chat', function ($scope) {
+app.controller('chat', function ($scope, $state, $stateParams, $location) {
 
   $scope.history = []; //history data in chatrooms
-  $scope.user_name = "Scarlett Johnson";
-  $scope.room_name = "Starbucks Taida";
-  $scope.rooms = ["No existing room!"];
+  $scope.user_name = "Your name here";
 
-  // get full list of existing room names
-  socket.on('room_list', function (data) {
-
-    $scope.rooms = [];
-    console.log("received data: " + data);
-
-    data.forEach(function(el){
-
-      $scope.rooms.push(el);
-
-    });
-
-    console.log(data);
-    $scope.$apply(); 
-
-  });
+  socket.emit("room_history", $stateParams.roomName.replace("_", " "));
+  console.log("sp: " + $stateParams.roomName);
 
   // get full list of history: rewrite
   socket.on('room_history', function (data) {
@@ -48,13 +32,13 @@ app.controller('chat', function ($scope) {
 
   });
 
-  // select room
-  $scope.selectRoom = function(room){
+  // go back to rooms
 
-    socket.emit("room_history", room);
+  $scope.backToRooms = function(room){
+
+    $state.go("rooms");
 
   }
-
 });
 
 

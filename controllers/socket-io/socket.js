@@ -7,14 +7,15 @@ module.exports = function (io){
 
     console.log("connection");
 
-    // return all history messages
-    // chat_db.all(function(list){
-    //   this.all(socket, list); //emitting the history data back to client
-    // });
+    // get all rooms
+    socket.on("room_list", function(){
 
-    chat_db.allRooms(function (list){
-      //console.log("room lists: " + list);
-      this.updateRoomList(socket, list);
+      chat_db.allRooms(function (list){
+
+        this.updateRoomList(socket, list);
+
+      });
+
     });
     
     // send back room history

@@ -1,19 +1,12 @@
-<h1>Chatroom</h1>
-<p>Welcome to Chatroom</p>
+<div ng-controller="rooms">
+  <h1>Chatroom</h1>
+  <p>Welcome to Chatroom</p>
 
-<p>Room name</p>
-<input type="text" id="name" type="text" room-name-box ng-model="room_name">
+  <p>Room name</p>
+  <input type="text" id="name" type="text" room-name-box ng-model="room_name">
 
-<ul>
-  <li ng-repeat="room in rooms" ng-bind="room" ng-click="selectRoom(room)"></li>
-</ul>
-<hr>
-
-<p>Your name:</p>
-<input type="text" id="name" type="text" ng-model="user_name">
-
-<ul>
-  <li ng-repeat="h in history track by $index">{{h.room_name}} {{h.user_name}} :{{h.message}}</li>
-</ul>
-
-<input type="text" id="messageBox" type="text" message-box ng-model="message">
+  <ul>
+    <li ng-repeat="room in rooms" ng-bind="room" ng-click="selectRoom(room)"></li>
+  </ul>
+  <hr>
+</div>

@@ -10,8 +10,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: "/javascripts/angular/views/rooms.html"
     })
     .state('draw', {
-      url: "/draw",
-      template: " "
+      url: "/:roomName",
+      templateUrl: "/javascripts/angular/views/draw.html"
     })
 });
 

@@ -1,0 +1,11 @@
+<div ng-controller="chat">
+  <button ng-click="backToRooms()">get out of here</button>
+  <p>Your name:</p>
+  <input type="text" id="name" type="text" ng-model="user_name">
+
+  <ul>
+    <li ng-repeat="h in history track by $index">{{h.room_name}} {{h.user_name}} :{{h.message}}</li>
+  </ul>
+
+  <input type="text" id="messageBox" type="text" message-box ng-model="message">
+</div>
