@@ -11,7 +11,7 @@ app.directive('messageBox', function () {
             user_name: scope.user_name,
             room_name: scope.room_name
           });
-          scope.message_field = "";
+          scope.message = "";
           console.log("message sent: " + (new Date()).getMilliseconds());
           event.preventDefault();
         }

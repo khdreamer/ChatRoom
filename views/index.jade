@@ -1,7 +1,16 @@
 extends layout
 
 block content
-  div(ui-view)
+  if !user
+    a(href="/login") Login
+    br
+    a(href="/register") Register
+  else
+    p You are currently logged in as #{user.username}
+    a(href="/logout") Logout
+    div(ui-view)
+    script.
+      var user_name = "#{user.username}";
 
 
 

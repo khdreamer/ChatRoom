@@ -1,0 +1,13 @@
+extends ../layout
+
+block content
+  .row
+    .col-md-offset-1.col-md-5
+      a(href="/auth/facebook")
+        img(src="/img/icons/facebook.png")
+    .col-md-6
+      if message && message.length
+      .alert-error
+        .close(data-dismiss="alert") &times;
+        .strong
+          {{ message }}

@@ -1,7 +1,8 @@
 app.controller('chat', function ($scope, $state, $stateParams, $location) {
 
   $scope.history = []; //history data in chatrooms
-  $scope.user_name = "Your name here";
+  $scope.user_name = user_name;
+  $scope.room_name = "";
 
   socket.emit("room_history", $stateParams.roomName.replace("_", " "));
   console.log("sp: " + $stateParams.roomName);
@@ -10,6 +11,8 @@ app.controller('chat', function ($scope, $state, $stateParams, $location) {
   socket.on('room_history', function (data) {
     
     $scope.history = [];
+    console.log(data);
+    $scope.room_name = JSON.parse(data[0])["room_name"];
     data.forEach(function(el){
 
       $scope.history.push(JSON.parse(el));

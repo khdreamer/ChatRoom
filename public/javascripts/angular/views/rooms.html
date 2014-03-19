@@ -2,9 +2,11 @@
   <h1>Chatroom</h1>
   <p>Welcome to Chatroom</p>
 
-  <p>Room name</p>
-  <input type="text" id="name" type="text" room-name-box ng-model="room_name">
-
+  <button ng-click="create=true">Create New Room</button>
+  <form ng-show="create" ng-submit="createRoom()">
+    <input type="text" id="name" type="text" room-name-box ng-model="room_name">
+    <input type="submit">
+  </form>
   <ul>
     <li ng-repeat="room in rooms" ng-bind="room" ng-click="selectRoom(room)"></li>
   </ul>

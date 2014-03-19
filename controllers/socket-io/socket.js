@@ -17,8 +17,8 @@ module.exports = function (io){
       });
 
     });
-    
-    // send back room history
+
+    // listen to request for room history
     socket.on("room_history", function (room){
 
       chat_db.all(room, function(list){
@@ -34,6 +34,19 @@ module.exports = function (io){
       chat_db.create(data, function(){
         console.log("message recorded: " + (new Date()).getMilliseconds());        
         this.update(data); //emitting the new data back to client
+      });
+
+    });
+
+    // listen to call of creating new room
+    socket.on('create_room', function (room_name) {
+      
+      console.log("create room: " + room_name);
+      chat_db.create({
+        room_name: room_name
+      }, function(){
+        console.log("message recorded: " + (new Date()).getMilliseconds());        
+        this.all(socket, [{room_name: room_name}]);
       });
 
     });

@@ -2,6 +2,7 @@ app.controller('rooms', function ($scope, $state, $stateParams, $location) {
 
   $scope.room_name = "Unknown Room";
   $scope.rooms = [];
+  $scope.create = false;
 
   socket.emit("room_list");
 
@@ -29,6 +30,13 @@ app.controller('rooms', function ($scope, $state, $stateParams, $location) {
     $stateParams.room_name = room;
     $location.path("/" + room.replace(" ", "_"));
 
+  }
+
+  $scope.createRoom = function(){
+
+    socket.emit("create_room", $scope.room_name);
+    $stateParams.room_name = $scope.room_name;
+    $location.path("/" + $scope.room_name.replace(" ", "_"));
   }
 
 });
