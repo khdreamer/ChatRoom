@@ -12,7 +12,21 @@ module.exports = function (io){
 
       chat_db.allRooms(function (list){
 
-        this.updateRoomList(socket, list);
+        // excluding rooms whose roomnames are starting with 'sys.'
+
+        list.forEach(function(el, idx){
+
+          if(el.indexOf("sys.")==0){
+            list[idx] = null;
+          }
+
+        });
+        
+        var list_str = list.join(',');
+        list_str.replace(/,+/g, ',');
+        newList = list_str.split(',');
+
+        this.updateRoomList(socket, newList);
 
       });
 
@@ -23,6 +37,27 @@ module.exports = function (io){
 
       chat_db.all(room, function(list){
         this.all(socket, list); //emitting the history data of the room back to client
+      });
+
+    });
+    
+    socket.on("init_roommate_ids", function(room_name){
+
+      console.log('got init_roommate_ids req, room: ' + room_name);
+      
+      chat_db.all('sys.'+room_name, function(list){
+        console.log('listing roommates: ' + list);
+        this.initRoommates(socket, list);
+      });
+
+    });
+
+    socket.on('new_user', function(data){
+
+      chat_db.createRoommates(data, function(){ //updating the new user info. into the database..
+        
+        this.updateNewRoommate(data);
+
       });
 
     });
@@ -68,6 +103,21 @@ module.exports = function (io){
   this.updateRoomList = function (socket, list){
     console.log("updateRoomList executed, emitting: " + list);
     socket.emit('room_list', list);
+  }
+  
+  this.initRoommates = function(socket, list){
+    console.log("initRoommates executed, emitting: " + list);
+    socket.emit('init_roommate_ids', list);
+  }
+  /*
+  this.updateRoommates = function(list){ //updating roommates list to every client
+    console.log("updateRoommates executed, emitting: " + list);
+    io.sockets.emit('update_roommate_ids', list);
+  }
+  */
+  this.updateNewRoommate = function(data){ //updating roommates list to every client
+    console.log("updateNewRoommate executed, emitting: " + data);
+    io.sockets.emit('update_new_roommate_id', data);
   }
 
   return this;

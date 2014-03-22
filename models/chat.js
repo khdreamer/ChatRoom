@@ -36,20 +36,25 @@ exports.create = function(data, callback){
 
   console.log("create");
 
-  console.log("create" + JSON.stringify(data) + "with room_name = " + JSON.stringify(data.room_name));
+  //console.log("create" + JSON.stringify(data) + "with room_name = " + JSON.stringify(data.room_name));
   
   client.rpush(data.room_name, JSON.stringify(data), function(err, num){ 
 
     callback();
       
   });
+    
+}
 
-  /*
-  client.rpush("history", JSON.stringify(data), function(err, num){ 
+
+exports.createRoommates = function(data, callback){
+
+  console.log("createRoommates, key: " + data.room_name+"room, value: " + data.audio_id);
+
+  client.rpush('sys.'+data.room_name, data.audio_id, function(err, num){ 
 
     callback();
       
   });
-*/
-    
+
 }
