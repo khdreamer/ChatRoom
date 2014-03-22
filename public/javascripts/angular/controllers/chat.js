@@ -4,6 +4,7 @@ app.controller('chat', function ($scope, $state, $stateParams, $location) {
   $scope.user_name = user_name;
   $scope.room_name = "";
 
+
   socket.emit("room_history", $stateParams.roomName.replace("_", " "));
   console.log("sp: " + $stateParams.roomName);
 
@@ -42,6 +43,29 @@ app.controller('chat', function ($scope, $state, $stateParams, $location) {
     $state.go("rooms");
 
   }
+
+  /////////////////////////////////
+  // video/audio processing
+  navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+  navigator.getUserMedia({audio: true}, function(stream){
+          
+        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+        var context = new AudioContext();
+
+        // Create an AudioNode from the stream
+        var sourceNode = context.createMediaStreamSource(stream);
+        sourceNode.connect(context.destination);
+
+  });
+
+  var peer = new Peer({key: 'n0ti0wcjdu7919k9'});
+  var call = peer.call
+
+  
+  /////////////////////////////////
+
+
 });
 
 
