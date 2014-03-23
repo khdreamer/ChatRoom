@@ -3,6 +3,14 @@ app.controller('chat', function ($scope, $state, $stateParams, $location) {
   $scope.history = []; //history data in chatrooms
   $scope.user_name = user_name;
   $scope.room_name = "";
+  $scope.showImgBox = false;
+
+
+  $scope.stickers = [
+    "/images/sticker001.jpg" ,
+    "/images/sticker002.jpg" ,
+    "/images/sticker003.jpg"
+  ]; // stickers image path
 
   socket.emit("room_history", $stateParams.roomName.replace("_", " "));
   console.log("sp: " + $stateParams.roomName);
@@ -41,6 +49,11 @@ app.controller('chat', function ($scope, $state, $stateParams, $location) {
 
     $state.go("rooms");
 
+  }
+
+  $scope.onStickerClickListeners = function(stickerPath){
+
+    showImgBox = false;
   }
 });
 

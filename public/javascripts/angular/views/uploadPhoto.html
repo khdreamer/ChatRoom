@@ -1,0 +1,19 @@
+<html ng-app="backgroundImage">
+
+
+	<script src="angular-file-upload-shim.min.js"></script> 
+	<script src="angular.min.js"></script>
+	<script src="angular-file-upload.min.js"></script> 
+	<script src="uploadBackground.js"></script>
+
+	<div ng-controller="MyCtrl">
+	  <input type="text" ng-model="myModelObj">
+	  <input type="file" ng-file-select="onFileSelect($files)" >
+	  <div ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="optional-css-class"
+	        ng-show="dropSupported">drop files here</div>
+	  <div ng-file-drop-available="dropSupported=true" 
+	        ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
+	  <button ng-click="upload.abort()">Cancel Upload</button>
+	</div>
+
+</html>
