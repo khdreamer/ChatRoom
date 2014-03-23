@@ -146,7 +146,7 @@ app.controller('chat', function ($scope, $state, $stateParams, $location) {
   navigator.getUserMedia({audio: true}, function(stream){
         
         localSourceNode = context.createMediaStreamSource(stream);
-        localSourceNode.connect( context.destination ); //local plaaaaaaaayBackkkkkk
+        //localSourceNode.connect( context.destination ); //local plaaaaaaaayBackkkkkk
 
   });
   
