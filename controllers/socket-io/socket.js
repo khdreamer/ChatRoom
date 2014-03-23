@@ -51,6 +51,27 @@ module.exports = function (io){
 
     });
 
+    // drawing events
+    socket.on('draw:begin', function (user_id, data) {
+      
+      io.sockets.emit('draw:begin', user_id, data);
+      console.log("draw:begin");
+
+    });
+
+    socket.on('draw:drag', function (user_id, data) {
+      
+      io.sockets.emit('draw:drag', user_id, data);
+      console.log("draw:drag");
+
+    });
+
+    socket.on('draw:end', function (user_id) {
+      
+      io.sockets.emit('draw:end', user_id);
+
+    });
+
   };
 
   this.update = function (data){

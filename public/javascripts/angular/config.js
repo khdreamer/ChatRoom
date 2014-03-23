@@ -13,6 +13,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: "/:roomName",
       templateUrl: "/javascripts/angular/views/draw.html"
     })
+    .state('draw_test', {
+      url: "/draw/test",
+      templateUrl: "/javascripts/angular/views/draw_test.html"
+    })
+     
 });
 
 // app.run(function ($rootScope, $state, $stateParams) {
