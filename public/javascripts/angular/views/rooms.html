@@ -8,7 +8,7 @@
     <input type="submit">
   </form>
   <ul>
-    <li ng-repeat="room in rooms" ng-bind="room" ng-click="selectRoom(room)"></li>
+    <li ng-repeat="room in rooms track by $index" ng-bind="room" ng-click="selectRoom(room)"></li>
   </ul>
   <hr>
 </div>
