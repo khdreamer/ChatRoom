@@ -12,13 +12,15 @@ app.controller('chat', function ($scope, $state, $stateParams, $location) {
                            navigator.mozGetUserMedia;
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
   var context = new AudioContext();
-  //var localSourceNode = context.createMediaStreamSource;
-  var localStream = null;
+  
+  
+  var localStream = 'kalala';
 
   var peer = new Peer( user_id, { key: 'n0ti0wcjdu7919k9', debug: 3,
                                   config: {'iceServers': 
                                   [{ url: 'stun:stun.l.google.com:19302' }]
                                   } } );
+
   console.log('user_id = ' + user_id);
 
   peer.on('open', function(){
@@ -30,23 +32,12 @@ app.controller('chat', function ($scope, $state, $stateParams, $location) {
   });
 
   peer.on('call', function(call){
-
-    /*
-    navigator.getUserMedia({audio: true}, function(stream){
-
-      call.answer(stream);
-
-    });
-    */
     
-    call.answer(localStream);
+    //the two lines below can be executed at the same time!
 
-    call.on('stream', function(remoteStream){
+    answerCall(call, localStream); // wait for localStream, then make the call
 
-      var remoteSourceNode = context.createMediaStreamSource(remoteStream);
-      remoteSourceNode.connect( context.destination );
-
-    });
+    processRemoteStream(call);
     
   });
 
@@ -100,25 +91,20 @@ app.controller('chat', function ($scope, $state, $stateParams, $location) {
     console.log('List existing roommates and call them!');
     
     var call = [];
-    list.forEach(function(roommate_id, idx){
-        
-        while(localStream == null){} //wait for localStream
 
+      list.forEach(function(roommate_id, idx){
+        
         if(roommate_id != user_id){
           console.log('calling roommate with id: ' + roommate_id);
-
-          call[idx] = peer.call('roommate_id', localStream);
-          /*
-          navigator.getUserMedia({audio: true}, function(stream){
-
-            call[idx] = peer.call(roommate_id, stream);
-
-          });*/
+          console.log('localStream = ' + localStream);
           
-        }
+          call[idx] = makeCall(peer, roommate_id);
 
-    });
+          //call[idx] = peer.call(roommate_id, localStream);
+        };
     
+      });
+      
   });
 
   //get updated when new user enters the room, and call the new user!
@@ -144,7 +130,7 @@ app.controller('chat', function ($scope, $state, $stateParams, $location) {
     //console.log("message received: " + (new Date()).getMilliseconds());
     
     $scope.$apply(); 
-
+    console.log('localStream '+ localStream);
   });
 
   // go back to rooms
@@ -161,14 +147,56 @@ app.controller('chat', function ($scope, $state, $stateParams, $location) {
   
   navigator.getUserMedia({audio: true}, function(stream){
         
+        //window.localStream = stream;
         localStream = stream;
-        //localSourceNode = context.createMediaStreamSource(stream);
+        var localSourceNode = context.createMediaStreamSource(localStream);
         //localSourceNode.connect( context.destination ); //local plaaaaaaaayBackkkkkk
 
+  }, function(){
+    console.log('cannot get stream!');
   });
   
+
+
+  var answerCall = function(callObj, streamObj){
+    if(streamObj == 'kalala'){
+      setTimeout(function(){
+        answerCall(callObj, streamObj);
+      }, 250);
+    }
+    else{
+      callObj.answer(streamObj);
+    }
+  }
+
+  function makeCall(peerObj, remoteId){
+
+    if(localStream == 'kalala'){
+      setTimeout(function(){
+        return makeCall(peerObj, remoteId);
+      }, 250);
+    }
+    else{
+      console.log('Finally! localStream = ' + localStream);
+
+      var callObj =  peerObj.call(remoteId, localStream);
+      
+      processRemoteStream(callObj);
+
+      return callObj;
+    }
+  }
+
+  function processRemoteStream(callObj){
+
+    callObj.on('stream', function(remoteStream){
+
+      var newNode = context.createMediaStreamSource(remoteStream);
+      newNode.connect( context.destination );
+
+    });
+
+  }
+
+
 });
-
-
-
-
