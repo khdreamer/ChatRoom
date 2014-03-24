@@ -4,7 +4,7 @@ app.controller('chat', function ($scope, $state, $stateParams, $location) {
   $scope.user_name = user_name;
   $scope.room_name = "";
   
-  //var my_audio_id = "";
+  //var my_user_id = "";
   var roommate_ids = [];
 
   navigator.getUserMedia = navigator.getUserMedia || 
@@ -12,31 +12,39 @@ app.controller('chat', function ($scope, $state, $stateParams, $location) {
                            navigator.mozGetUserMedia;
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
   var context = new AudioContext();
-  var localSourceNode = context.createMediaStreamSource;
+  //var localSourceNode = context.createMediaStreamSource;
+  var localStream = null;
 
-  var peer = new Peer( user_id, { key: 'n0ti0wcjdu7919k9', debug: 3});
+  var peer = new Peer( user_id, { key: 'n0ti0wcjdu7919k9', debug: 3,
+                                  config: {'iceServers': 
+                                  [{ url: 'stun:stun.l.google.com:19302' }]
+                                  } } );
   console.log('user_id = ' + user_id);
 
   peer.on('open', function(){
 
       //console.log('THIS BROWSER opens a peer with id: ' + peer.id + ' == user_id: ' + user_id);
       console.log('THIS BROWSER opens a peer with id: ' + peer.id);
-      //my_audio_id = peer.id; //get my audio id
+      //my_user_id = peer.id; //get my audio id
 
   });
 
   peer.on('call', function(call){
 
+    /*
     navigator.getUserMedia({audio: true}, function(stream){
 
       call.answer(stream);
 
     });
+    */
+    
+    call.answer(localStream);
 
     call.on('stream', function(remoteStream){
 
-      var sourceNode = createMediaStreamSource(remoteStream);
-      sourceNode.connect( context.destination );
+      var remoteSourceNode = context.createMediaStreamSource(remoteStream);
+      remoteSourceNode.connect( context.destination );
 
     });
     
@@ -83,9 +91,9 @@ app.controller('chat', function ($scope, $state, $stateParams, $location) {
     
     
     // update roommate list in the server database because I'm new!
-    socket.emit("new_user", { audio_id : peer.id, 
+    socket.emit("new_user", { user_id : user_id, 
                               room_name: $scope.room_name });
-    //console.log("emitting new_user req, audio_id: " + peer.id + ", room_name: " + $scope.room_name);
+    //console.log("emitting new_user req, user_id: " + peer.id + ", room_name: " + $scope.room_name);
 
 
     //list roommates and call them
@@ -93,14 +101,21 @@ app.controller('chat', function ($scope, $state, $stateParams, $location) {
     
     var call = [];
     list.forEach(function(roommate_id, idx){
-      
-      console.log('calling roommate with id: ' + roommate_id);
+        
+        while(localStream == null){} //wait for localStream
 
-      navigator.getUserMedia({audio: true}, function(stream){
+        if(roommate_id != user_id){
+          console.log('calling roommate with id: ' + roommate_id);
 
-        call[idx] = peer.call('roommate_id', stream);
+          call[idx] = peer.call('roommate_id', localStream);
+          /*
+          navigator.getUserMedia({audio: true}, function(stream){
 
-      });
+            call[idx] = peer.call(roommate_id, stream);
+
+          });*/
+          
+        }
 
     });
     
@@ -109,10 +124,11 @@ app.controller('chat', function ($scope, $state, $stateParams, $location) {
   //get updated when new user enters the room, and call the new user!
   socket.on('update_new_roommate_id', function(data){
 
-    roommate_ids.push(data.audio_id);
+    roommate_ids.push(data.user_id);
     
     console.log('receive update_new_roommate_id, data: ' + JSON.stringify(data));
-    if(data.audio_id == user_id){
+    
+    if(data.user_id == user_id){
       console.log('the new user is me LOL');
     }
     
@@ -145,7 +161,8 @@ app.controller('chat', function ($scope, $state, $stateParams, $location) {
   
   navigator.getUserMedia({audio: true}, function(stream){
         
-        localSourceNode = context.createMediaStreamSource(stream);
+        localStream = stream;
+        //localSourceNode = context.createMediaStreamSource(stream);
         //localSourceNode.connect( context.destination ); //local plaaaaaaaayBackkkkkk
 
   });

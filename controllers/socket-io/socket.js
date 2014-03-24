@@ -1,9 +1,13 @@
 var chat_db = require("../../models/chat.js")
   , redis = require("redis");
 
+var allClients = [];
+
 module.exports = function (io){
 
   this.connect = function (socket){
+
+    allClients.push(socket);
 
     console.log("connection");
 
@@ -34,7 +38,7 @@ module.exports = function (io){
 
     // listen to request for room history
     socket.on("room_history", function (room){
-
+      console.log('requesting room_history of room: '+ room);
       chat_db.all(room, function(list){
         this.all(socket, list); //emitting the history data of the room back to client
       });
@@ -45,14 +49,21 @@ module.exports = function (io){
 
       console.log('got init_roommate_ids req, room: ' + room_name);
       
+      chat_db.allVal('sys.'+room_name, function(list){
+        console.log('listing roommates: ' + list);
+        this.initRoommates(socket, list);
+      });
+      /*
       chat_db.all('sys.'+room_name, function(list){
         console.log('listing roommates: ' + list);
         this.initRoommates(socket, list);
       });
-
+      */
     });
 
     socket.on('new_user', function(data){
+
+      data.socket_id = socket.id; // add new field to the hash
 
       chat_db.createRoommates(data, function(){ //updating the new user info. into the database..
         
@@ -86,7 +97,23 @@ module.exports = function (io){
 
     });
 
+
+    socket.on('disconnect', function(){
+
+      console.log('got disconnection! socket_id: ' + socket.id);
+      var idx = allClients.indexOf(socket);
+      allClients.splice(idx,1);
+
+      chat_db.deleteRoommates(socket.id, function(){
+        console.log('delete roommate with socket_id: ' + socket.id);
+      });
+
+    });
+
+
   };
+
+
 
   this.update = function (data){
 

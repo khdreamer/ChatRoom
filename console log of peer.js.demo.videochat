@@ -1,0 +1,49 @@
+<receiver>
+PeerJS:  Socket open peer.js:1117
+PeerJS:  Creating RTCPeerConnection. peer.js:1117
+PeerJS:  Listening for ICE candidates. peer.js:1117
+PeerJS:  Listening for `negotiationneeded` peer.js:1117
+PeerJS:  Listening for data channel peer.js:1117
+PeerJS:  Listening for remote stream peer.js:1117
+PeerJS:  Setting remote description 
+RTCSessionDescription {sdp: "v=0
+↵o=- 7004052602021772499 2 IN IP4 127.0.0.1
+↵s…0582 label:3eeed5a5-01c8-465a-abe7-0355c32af38e
+↵", type: "offer"}
+ peer.js:1117
+6
+PeerJS:  Added ICE candidate for: kevdq0l2flf8ncdi peer.js:1117
+PeerJS:  `negotiationneeded` triggered peer.js:1117
+PeerJS:  onnegotiationneeded triggered when not stable. Is another connection being established? peer.js:1117
+PeerJS:  Received remote stream peer.js:1117
+PeerJS:  Receiving stream 
+MediaStream {onremovetrack: null, onaddtrack: null, onended: null, ended: false, id: "pyViLNI0H90UZxWIpflIexpMGs2cj4g7aDMF"…}
+ peer.js:1117
+PeerJS:  Set remoteDescription: OFFER for: kevdq0l2flf8ncdi peer.js:1117
+PeerJS:  Created answer. peer.js:1117
+PeerJS:  Set localDescription: answer for: kevdq0l2flf8ncdi peer.js:1117
+3
+PeerJS:  Received ICE candidates for: kevdq0l2flf8ncdi peer.js:1117
+
+///////////////////////////
+<caller>
+Creating RTCPeerConnection. peer.js:1117
+PeerJS:  Listening for ICE candidates. peer.js:1117
+PeerJS:  Listening for `negotiationneeded` peer.js:1117
+PeerJS:  Listening for data channel peer.js:1117
+PeerJS:  Listening for remote stream peer.js:1117
+PeerJS:  `negotiationneeded` triggered peer.js:1117
+PeerJS:  Created offer. peer.js:1117
+PeerJS:  Set localDescription: offer for: nxxjb41e1pyfd2t9 peer.js:1117
+6
+PeerJS:  Received ICE candidates for: nxxjb41e1pyfd2t9 peer.js:1117
+PeerJS:  Setting remote description 
+RTCSessionDescription
+ peer.js:1117
+PeerJS:  Received remote stream peer.js:1117
+PeerJS:  Receiving stream 
+MediaStream
+ peer.js:1117
+PeerJS:  Set remoteDescription: ANSWER for: nxxjb41e1pyfd2t9 peer.js:1117
+3
+PeerJS:  Added ICE candidate for: nxxjb41e1pyfd2t9 

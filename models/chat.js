@@ -47,14 +47,38 @@ exports.create = function(data, callback){
 }
 
 
+exports.allVal = function(room_name, callback){
+
+  client.hvals(room_name, function(err,list){ // return all values in the hash
+
+    if(callback) callback(list);
+
+  });
+
+}
+
 exports.createRoommates = function(data, callback){
+  
+  console.log("createRoommates, key: sys." + data.room_name + ", field: " + data.socket_id + ", value: " + data.user_id);
 
-  console.log("createRoommates, key: " + data.room_name+"room, value: " + data.audio_id);
-
-  client.rpush('sys.'+data.room_name, data.audio_id, function(err, num){ 
+  client.hset('sys.' + data.room_name, data.socket_id, data.user_id, function(err,num){
 
     callback();
-      
+
+  });
+
+}
+
+exports.deleteRoommates = function(data, callback){ // 'data' is the socket_id of disconnected socket
+
+  //console.log("deleteRoommate, key: sys." + data.room_name+ ", field: " + , value: " + data.user_id);
+
+  client.keys('sys.*', function(err,list){
+
+    client.hdel(list, data.field, function(err,num){
+      callback();
+    });
+
   });
 
 }
