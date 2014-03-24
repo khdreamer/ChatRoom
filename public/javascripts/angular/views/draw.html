@@ -1,4 +1,4 @@
-<img src="/images/sticker001.jpg">
+
 <div ng-controller="chat">
   <button ng-click="backToRooms()">get out of here</button>
   <p>Your name is {{user_name}}</p>
@@ -6,10 +6,11 @@
   <ul>
     <li ng-repeat="h in history track by $index">[{{h.room_name}}] {{h.user_name}}: {{h.message}}</li>
   </ul>
-  <button ng-click="showImgBox = true">Stickers!</button>
+  <button ng-click="switchImgBox()">Stickers!</button>
   <div ng-show="showImgBox">
-  	<img ng-repeat="sticker in stickers track by $index" ng-src="{{sticker}}" ng-click="onStickerClickListener( sticker )"/>
-  	<li ng-repeat="sticker in stickers track by $index"> {{sticker}} </li>
+  	<button ng-repeat="sticker in stickers track by $index" ng-click="sendSticker( sticker )">
+  		<img ng-src="{{sticker}}" />
+  	</button>
   </div>
   <input type="text" id="messageBox" type="text" message-box ng-model="message">
 </div>

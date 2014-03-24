@@ -5,12 +5,12 @@ app.controller('chat', function ($scope, $state, $stateParams, $location) {
   $scope.room_name = "";
   $scope.showImgBox = false;
 
+  // stickers setup
+  $scope.stickers = [];
+  for (var i = 1 ; i <=3 ; i++ ){
+    $scope.stickers.push("/images/sticker" + i + ".jpg");
+  }
 
-  $scope.stickers = [
-    "/images/sticker001.jpg" ,
-    "/images/sticker002.jpg" ,
-    "/images/sticker003.jpg"
-  ]; // stickers image path
 
   socket.emit("room_history", $stateParams.roomName.replace("_", " "));
   console.log("sp: " + $stateParams.roomName);
@@ -37,7 +37,7 @@ app.controller('chat', function ($scope, $state, $stateParams, $location) {
     $scope.history.push(data);
 
     //console.log(data);
-    //console.log("message received: " + (new Date()).getMilliseconds());
+    console.log("message received: " + (new Date()).getMilliseconds());
     
     $scope.$apply(); 
 
@@ -51,9 +51,18 @@ app.controller('chat', function ($scope, $state, $stateParams, $location) {
 
   }
 
-  $scope.onStickerClickListeners = function(stickerPath){
+  $scope.switchImgBox = function(){
+    if( $scope.showImgBox )
+      $scope.showImgBox = false;
+    else $scope.showImgBox = true;
+    console.log($scope.showImgBox);
+  }
 
-    showImgBox = false;
+  $scope.sendSticker = function(stickerPath){
+    $scope.history.push("<img src=\"" + stickerPath + "\"/> ");
+    // 
+    //showImgBox = false;
+    //$scope.$apply();
   }
 });
 
