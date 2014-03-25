@@ -11,8 +11,12 @@ var room = location.search && location.search.split('?')[1];
       remoteVideosEl: '',
       // immediately ask for camera access
       autoRequestMedia: true,
+      media: {
+        audio: true,
+        video: false
+      },
       debug: false,
-      detectSpeakingEvents: true,
+      detectSpeakingEvents: false, // true or false, which one is better???
       autoAdjustMic: false
     });
 
