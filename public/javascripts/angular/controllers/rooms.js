@@ -28,7 +28,8 @@ app.controller('rooms', function ($scope, $state, $stateParams, $location) {
 
     socket.emit("room_history", room);
     $stateParams.room_name = room;
-    $location.path("/" + room.replace(" ", "_"));
+    // $location.path("/room/" + room.replace(" ", "_"));
+    $location.path("/video/" + room.replace(" ", "_"));
 
   }
 

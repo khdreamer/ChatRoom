@@ -60,6 +60,11 @@ var io = require('socket.io').listen(server);
 var socketHandler = require('./controllers/socket-io/socket.js')(io);
 io.sockets.on('connection', socketHandler.connect);
 
+// upload files
+
+var uploadHandler = require('./controllers/upload/upload.js')(io);
+app.post('/upload', uploadHandler.upload);
+
 
 
 

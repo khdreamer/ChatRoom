@@ -1,0 +1,5 @@
+<div ng-controller="upload">
+  <input type="file" name="image" ng-file-select="onFileSelect($files)">
+  {{img_path}}
+  <img ng-src="{{img_path}}" alt="" ng-hide="img_path == null">
+</div>

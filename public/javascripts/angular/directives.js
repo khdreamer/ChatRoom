@@ -64,3 +64,28 @@ app.directive('draw', function () {
 
 });
 
+app.directive('rain', function () {
+  return {
+    restrict: "A",
+    link: function (scope, element, attrs) {
+
+      element.bind("load" , function(event){ 
+
+        var engine = new RainyDay({
+          
+          image: element[0],
+          parentElement: element.parent()[0]
+          
+        });
+        engine.rain([ [1, 2, 8000] ]);
+        engine.rain([ [3, 3, 0.88], [5, 5, 0.9], [6, 2, 1] ], 100);
+        element.css("display", "none");
+      
+      });
+
+    }
+  }
+});
+
+
+

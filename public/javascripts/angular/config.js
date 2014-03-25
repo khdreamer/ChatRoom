@@ -10,12 +10,20 @@ app.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: "/javascripts/angular/views/rooms.html"
     })
     .state('draw', {
-      url: "/:roomName",
-      templateUrl: "/javascripts/angular/views/draw.html"
+      url: "/room/:roomName",
+      templateUrl: "/javascripts/angular/views/chat.html"
     })
     .state('draw_test', {
-      url: "/draw/test",
+      url: "/draw",
       templateUrl: "/javascripts/angular/views/draw_test.html"
+    })
+    .state('upload', {
+      url: "/upload",
+      templateUrl: "/javascripts/angular/views/upload.html"
+    })
+    .state('video', {
+      url: "/video/:roomName",
+      templateUrl: "/javascripts/angular/views/video.html"
     })
      
 });

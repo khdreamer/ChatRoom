@@ -1,0 +1,25 @@
+<div id="content-wrapper" ng-controller="upload">
+  <div id="draw" ng-controller="draw">
+    <canvas id="main" draw
+      ng-mousedown="mouseDown($event)"
+      ng-mousemove="mouseDrag($event)"
+      ng-mouseup="mouseUp()">
+    </canvas>
+    <img id="rain" src="/images/bg.jpg" rain>
+    <img id="upload-img" ng-src="{{img_path}}" alt="" ng-hide="img_path == null">
+  </div>
+  <div id="chat" ng-controller="chat">
+    <!-- <button ng-click="backToRooms()">get out of here</button> -->
+    <!-- <p>Your name is {{user_name}}</p> -->
+    <ul class="chat-content">
+      <li ng-repeat="h in history track by $index">
+        <p class="user-name">{{h.user_name}}: </p>
+        <p class="message">{{h.message}}</p>
+      </li>
+    </ul>
+    <input type="textarea" id="messageBox" type="text" message-box ng-model="message">
+  </div>
+  <div id="toolbox">
+    <input id="upload" type="file" name="image" ng-file-select="onFileSelect($files)">
+  </div>
+</div>

@@ -6,9 +6,9 @@ block content
     br
     a(href="/register") Register
   else
-    p You are currently logged in as #{user.username}
-    a(href="/logout") Logout
-    div(ui-view)
+    //p You are currently logged in as #{user.username}
+    //a(href="/logout") Logout
+    #content(ui-view)
     script.
       var user_name = "#{user.username}";
       var user_id = "#{user.id}";
