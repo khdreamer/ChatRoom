@@ -1,4 +1,4 @@
-app.controller('chat', function ($scope, $state, $stateParams, $location) {
+app.controller('chat', function ($scope, $state, $stateParams, $location, $anchorScroll) {
 
   $scope.history = []; //history data in chatrooms
   $scope.user_name = user_name;
@@ -31,17 +31,10 @@ app.controller('chat', function ($scope, $state, $stateParams, $location) {
     //console.log(data);
     //console.log("message received: " + (new Date()).getMilliseconds());
     
-    $scope.$apply(); 
+    $scope.$apply();
 
   });
 
-  // go back to rooms
-
-  $scope.backToRooms = function(room){
-
-    $state.go("rooms");
-
-  }
 });
 
 

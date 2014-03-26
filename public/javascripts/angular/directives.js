@@ -87,5 +87,23 @@ app.directive('rain', function () {
   }
 });
 
+app.directive('chatContent', 
+  ['$location', '$anchorScroll', function ($location, $anchorScroll) {
+  return {
+    restrict: "A",
+    link: function (scope, element, attrs) {
 
+      // console.log(scope.history);
+      scope.$watch("history", function(){
+
+        $location.hash('bottom');
+        $anchorScroll();
+        $location.hash('');
+        console.log("scroll");
+
+      }, true);
+
+    }
+  }
+}]);
 

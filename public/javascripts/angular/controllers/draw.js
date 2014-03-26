@@ -9,6 +9,9 @@ app.controller('draw', function ($scope) {
   }
   init();
 
+  /*------- rain -------*/
+  $scope.random = Math.floor(Math.random()*10);
+
   /*------- drawing functions -------*/
   
   // mouse events
@@ -16,12 +19,16 @@ app.controller('draw', function ($scope) {
   var path;
   var drag = false;
 
+  var color = new paper.Color(255, 0, 0, 0.6);
+  // var color = 'red';
+  var strokeWidth = 10;
+
   $scope.mouseDown = function(event){
 
     drag = true;
     path = new paper.Path({
-      strokeColor: 'black',
-      strokeWidth: 3
+      strokeColor: color,
+      strokeWidth: strokeWidth
     });
     path.add(new paper.Point(event.x, event.y));
 
@@ -53,7 +60,7 @@ app.controller('draw', function ($scope) {
     socket.emit(key, user_id, JSON.stringify({
 
       point: { x: x, y: y },
-      color: 'black'
+      color: color
 
     }));
 
@@ -69,8 +76,8 @@ app.controller('draw', function ($scope) {
     if ( !$scope.external_paths[artist] ) {
 
       $scope.external_paths[artist] = new paper.Path( {
-        strokeColor: 'black',
-        strokeWidth: 3
+        strokeColor: color,
+        strokeWidth: strokeWidth
       });
       $scope.external_paths[artist].add( new paper.Point( data.point.x, data.point.y ) );
 

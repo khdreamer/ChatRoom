@@ -23,7 +23,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('video', {
       url: "/video/:roomName",
-      templateUrl: "/javascripts/angular/views/video.html"
+      templateUrl: "/javascripts/angular/views/voice.html"
     })
      
 });

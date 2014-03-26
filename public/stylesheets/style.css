@@ -1,3 +1,16 @@
+@font-face {
+
+  font-family: 'whhg';
+  src: url('/fonts/whhg/webhostinghub-glyphs.eot');
+  src: url('/fonts/whhg/webhostinghub-glyphs.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/whhg/webhostinghub-glyphs.ttf') format('truetype'),
+       url('/fonts/whhg/webhostinghub-glyphs.svg') format('svg');
+  src: url('/fonts/whhg/webhostinghub-glyphs.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
 html, body {
 
   width: 100%;
@@ -29,13 +42,29 @@ ul {
 
 div#content {
 
+  position: static;
+  width: 100%;
   height: 100%;
+  z-index: 50;
 
 }
 
 div.clear {
 
   clear: both;
+
+}
+
+[icon]::before {
+
+  content: attr(icon);
+  font-family: 'whhg';
+
+}
+
+#dp_swf_engine {
+
+  display: none;
 
 }
 
@@ -66,9 +95,10 @@ input#upload {
 
   width: 100%;
   display: block;
+  border: none;
+  background-color: #333;
 
 }
-
 
 /*------- chat -------*/
 
@@ -78,15 +108,42 @@ div#chat {
   width: 15%;
   height: 100%;
   position: relative;
-  overflow: auto;
   background-color: #333;
   color: #ccc;
 
 }
 
-ul.chat-content {
+div#chat-info {
 
-  padding: 30px 15px;
+  padding: 0 15px;
+  position: absolute;
+  width: 100%;
+  height: 75px;
+  background-color: #333;
+  box-shadow: 0 -1px 0 0 #222 inset, 0 1px 0 0 #444;
+
+}
+
+div#chat-content {
+
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0 15px;
+  overflow: auto;
+
+}
+
+div#chat-content div#top {
+
+  height: 75px;
+
+}
+
+div#chat-content div#bottom {
+
+  height: 30px;
 
 }
 
@@ -102,10 +159,10 @@ p.message {
 
 input#messageBox {
 
-  position: fixed;
+  position: absolute;
   display: inline-block;
   bottom: 0;
-  width: 15%;
+  width: 100%;
   height: 30px;
   border: none;
   background-color: #333;
@@ -140,9 +197,47 @@ div#toolbox {
   width: 3%;
   height: 100%;
   float: left;
-  box-shadow: 1px 0 0 0 #444 inset, -1px 0 0 0 #222;
+  box-shadow: -1px 0 0 0 #444, -2px 0 0 0 #222;
 
 }
+
+div#toolbox > [icon] {
+
+  display: block;
+  cursor: pointer;
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding: 50% 0;
+
+}
+
+div#toolbox > [icon]::before {
+
+  font-size: 2vw;
+  padding: 16.667%;
+  background-color: #333;
+  color: #ccc;
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0;
+
+}
+
+div#toolbox > button {
+
+  border: none;
+  background-color: #333;
+
+}
+
+div#toolbox > button[icon].silent::before {
+
+  content: '\f789';
+
+}
+
 
 /*------- draw -------*/
 
@@ -174,6 +269,14 @@ img#rain {
   height: auto;
   min-width: 100%;
   min-height: 100%;
+
+}
+
+/*------- voice -------*/
+
+div#voice {
+
+  display: none;
 
 }
 

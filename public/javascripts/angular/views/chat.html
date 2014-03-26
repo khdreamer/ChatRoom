@@ -1,25 +1,54 @@
 <div id="content-wrapper" ng-controller="upload">
+  
   <div id="draw" ng-controller="draw">
     <canvas id="main" draw
       ng-mousedown="mouseDown($event)"
       ng-mousemove="mouseDrag($event)"
       ng-mouseup="mouseUp()">
     </canvas>
-    <img id="rain" src="/images/bg.jpg" rain>
+    <img id="rain" ng-src="/images/bg{{random}}.jpg" rain>
     <img id="upload-img" ng-src="{{img_path}}" alt="" ng-hide="img_path == null">
   </div>
+
   <div id="chat" ng-controller="chat">
-    <!-- <button ng-click="backToRooms()">get out of here</button> -->
-    <!-- <p>Your name is {{user_name}}</p> -->
-    <ul class="chat-content">
-      <li ng-repeat="h in history track by $index">
-        <p class="user-name">{{h.user_name}}: </p>
-        <p class="message">{{h.message}}</p>
-      </li>
-    </ul>
+    <div id="chat-content" chat-content>
+      <div id="top"></div>
+      <ul>
+        <li ng-repeat="h in history track by $index" ng-show="$index > 0">
+          <p class="user-name">{{h.user_name}}: </p>
+          <p class="message">{{h.message}}</p>
+        </li>
+      </ul>
+      <div id="bottom"></div>
+    </div>
+    <div id="chat-info">
+      <p ng-bind="user_name"></p>
+      <p ng-bind="room_name"></p>
+    </div>
     <input type="textarea" id="messageBox" type="text" message-box ng-model="message">
   </div>
-  <div id="toolbox">
-    <input id="upload" type="file" name="image" ng-file-select="onFileSelect($files)">
+
+  <div id="voice" ng-controller="voice">
+    <div class="videoContainer">
+      <video id="localVideo" oncontextmenu="return false;"></video>
+      <div id="localVolume" class="volume_bar"></div>
+    </div>
+    <div id="remotes"></div>
   </div>
+
+  <div id="toolbox" ng-controller="toolbox">
+    <input id="upload" type="file" name="image" 
+    ng-file-select="onFileSelect($files)" icon="&#xf7ab">
+    <button ng-click="toggleVoice()" icon='&#xf18c' ng-class="{silent: !voiceOn}"></button>
+    <button ng-click="leave()" icon='&#xf31e'></button>
+  </div>
+
 </div>
+
+
+
+
+
+
+
+
